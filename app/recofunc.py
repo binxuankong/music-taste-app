@@ -13,6 +13,8 @@ from secrets import secrets
 
 DATABASE_URL = secrets['DATABASE_URL']
 GENIUS_TOKEN = secrets['GENIUS_TOKEN']
+os.environ['SPOTIPY_CLIENT_ID'] = secrets['SPOTIPY_CLIENT_ID']
+os.environ['SPOTIPY_CLIENT_SECRET'] = secrets['SPOTIPY_CLIENT_SECRET']
 TRY_COUNT = 5
 
 def get_of_the_day():
