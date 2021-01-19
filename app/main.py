@@ -2,7 +2,9 @@ import json
 import requests
 import spotipy
 import pandas as pd
-from flask import Flask, request, url_for, flash, redirect, session
+import redis
+from flask import Flask, request, url_for, session, flash, redirect
+from flask_session import Session
 from functools import wraps
 from werkzeug.exceptions import abort
 from app.generate_page import generate_page, generate_profile_page, generate_match_page, generate_explore_page
@@ -12,13 +14,18 @@ from app.comparefunc import get_user_from_code
 from secrets import secrets
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'CALIWASAMISSIONBUTNOWAGLEAVING'
+app.secret_key = secrets['APP_SECRET_KEY']
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_REDIS'] = redis.from_url(secrets['REDIS_URL'])
+
+sess = Session()
+sess.init_app(app)
 
 API_BASE = "https://accounts.spotify.com"
-SCOPE = "user-read-recently-played user-top-read"
 REDIRECT_URI = secrets['SPOTIFY_CALLBACK_URI']
 CLIENT_ID = secrets['SPOTIPY_CLIENT_ID']
 CLIENT_SECRET = secrets['SPOTIPY_CLIENT_SECRET']
+SCOPE = secrets['SPOTIPY_SCOPE']
 
 @app.route('/')
 def index():

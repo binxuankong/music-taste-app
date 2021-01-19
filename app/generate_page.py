@@ -13,7 +13,7 @@ def dir_last_updated(folder):
                    for f in files))
 
 def generate_page(html_page, **kwargs):
-    return render_template(html_page, last_updated=dir_last_updated('app/static'), **kwargs)
+    return render_template(html_page, last_updated=dir_last_updated('app/static/css'), **kwargs)
 
 def generate_profile_page(user_id, user_profile, is_user=False, public=True):
     if not public:

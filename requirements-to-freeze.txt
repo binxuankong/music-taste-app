@@ -1,0 +1,10 @@
+uwsgi
+flask
+flask_session
+pandas
+SQLAlchemy
+psycopg2-binary
+redis
+spotipy
+lyricsgenius
+pygal

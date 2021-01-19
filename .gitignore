@@ -1,4 +1,4 @@
-env
+env/
 musicenv/
 .env
 .DS_Store
@@ -6,7 +6,4 @@ musicenv/
 .ipynb_checkpoints
 __pycache__/
 */__pycache__/
-test.py
 secrets.py
-*.ipynb
-*.csv
