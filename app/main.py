@@ -38,7 +38,6 @@ def link():
 
 @app.route('/callback')
 def callback():
-    session.clear()
     session.permanent = True
     code = request.args.get('code')
     auth_token_url = f"{API_BASE}/api/token"
