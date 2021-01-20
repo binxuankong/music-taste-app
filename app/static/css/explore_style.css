@@ -1,0 +1,139 @@
+.daily-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 24px;
+}
+
+.artist-name {
+    float: left;
+    height: 100%;
+    width: 50%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1vw;
+}
+
+.artist-image {
+    float: right;
+    width: 50%;
+    top: 0;
+    right: 0;
+}
+
+.artist-name a {
+    text-decoration: none;
+    color: var(--red);
+    font-size: 4vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.artist-image img {
+    border-radius: 50%;
+    padding: 1vw;
+    width: 60%;
+    display: block;
+    margin-right: auto;
+}
+
+.track-image {
+    float: left;
+    width: 40%;
+    top: 0;
+    left: 0;
+}
+
+.track-name {
+    float: right;
+    height: 100%;
+    width: 60%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    padding-left: 1vw;
+}
+
+.track-image img {
+    padding: 1vw;
+    width: 60%;
+    display: block;
+    margin-left: auto;
+}
+
+.track-name a {
+    text-decoration: none;
+    color: var(--blue);
+    font-size: 2vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.track-name span {
+    color: var(--red);
+    font-size: 2vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.track-name p {
+    color: var(--white);
+    font-size: 2vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.lyric-background {
+    display: flex;
+    justify-content: center;
+}
+
+.lyric-background img {
+    display: block;
+    position: absolute;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.lyric-image {
+    float: left;
+    width: 80%;
+    top: 0;
+    left: 0;
+    padding-left: 2vw;
+    z-index: 2;
+}
+
+.lyric-name {
+    float: right;
+    height: 100%;
+    width: 20%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    z-index: 2;
+}
+
+.lyric-image p {
+    color: var(--white);
+    font-size: 1.8vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.lyric-name a {
+    text-decoration: none;
+    color: var(--blue);
+    font-size: 1.2vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.lyric-name span {
+    color: var(--red);
+    font-size: 1.2vw;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}

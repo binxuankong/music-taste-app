@@ -125,7 +125,7 @@ WHERE mf.user_id in %(user_ids)s
 """
 
 similar_artists_query = """
-SELECT artist_id, artist, artist_url, artist_image
+SELECT artist_id, artist, genres, artist_url, artist_image
 FROM "Artists"
 WHERE artist_id in %(artist_ids)s
 """

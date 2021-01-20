@@ -51,7 +51,9 @@ def compare_users(u1, u2):
         # Artist
         df_artist = get_artist_similarity(u1_a, u2_a, timeframe)
         tf_points += MU_WEIGHTS['artist'] * calculate_similarity(df_artist)
-        similar_artists = similar_artists.append(df_artist.loc[df_artist['points'] > 0])
+        df_artist = df_artist.loc[df_artist['points'] > 0].sort_values(by='points', ascending=False)
+        df_artist['rank'] = df_artist.reset_index().index + 1
+        similar_artists = similar_artists.append(df_artist)
         # Track
         df_track = get_track_similarity(u1_t, u2_t, timeframe)
         tf_points += MU_WEIGHTS['track'] * calculate_similarity(df_track)

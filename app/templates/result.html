@@ -40,7 +40,7 @@
 
 <!-- SIMILAR TAB -->
 <section id="tabs" class="top-tab" style="width:100%;">
-    {% with title='Similar Artists' %}
+    {% with title='Similar Artists', rank=True %}
         {% include 'artist_template.html' %}
     {% endwith %}
     {% with title='Similar Tracks' %}

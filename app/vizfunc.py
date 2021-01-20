@@ -1,5 +1,7 @@
+import random
 import pygal
 from pygal.style import Style
+from app.dbfunc import top_to_dict
 
 custom_style = Style(
     background='transparent',
@@ -24,6 +26,40 @@ def calculate_mainstream_score(top_artists, shift=4):
             this_score += (pop**2 * weights[i]) / (100 * sum(weights))
         final_score += (this_score * TF_WEIGHTS[timeframe]) / sum(TF_WEIGHTS.values())
     return round(final_score)
+
+def genre_cloud_data(df_a, df_g):
+    top_dict = {}
+    for tf in TF_WEIGHTS.keys():
+        df = df_g.loc[df_g['timeframe'] == tf].drop_duplicates(subset=['points'])[:10]
+        df_a2 = df_a.loc[df_a['timeframe'] == tf]
+        artists_genres =  df_a2['genres'].str.split('; ').tolist()
+        dict_list = []
+        weight = 10
+        col1 = list(range(5))
+        col2 = list(range(5))
+        random.shuffle(col1)
+        random.shuffle(col2)
+        if col1[-1] == col2[0]:
+            col2.insert(0, col2.pop())
+        colours = col1 + col2
+        for _, row in df.iterrows():
+            artists = []
+            for i, artist_genres in enumerate(artists_genres):
+                if row['genre'].lower() in artist_genres:
+                    artists.append(df_a2.iloc[i].to_dict())
+                if len(artists) >= 5:
+                    break
+            dict_list.append({
+                'genre': row['genre'],
+                'points': row['points'],
+                'weight': weight,
+                'artists': artists,
+                'colour': colours[weight-1]
+            })
+            weight -= 1
+        random.shuffle(dict_list)
+        top_dict[tf] = dict_list
+    return top_dict
 
 def plot_genre_chart(top_genres):
     try:

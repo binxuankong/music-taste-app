@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block head %}
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_style.css') }}?u={{ last_updated }}">
 {% endblock %}
 

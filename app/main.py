@@ -17,9 +17,11 @@ app = Flask(__name__)
 app.secret_key = secrets['APP_SECRET_KEY']
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_REDIS'] = redis.from_url(secrets['REDIS_URL'])
-app.config['SESSION_COOKIE_DOMAIN'] = '.soundbud.ml'
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = True
+
+if secrets['ENV'] == 'PROD':
+    app.config['SESSION_COOKIE_DOMAIN'] = '.soundbud.ml'
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
 
 sess = Session()
 sess.init_app(app)
@@ -66,6 +68,7 @@ def profile():
             return redirect(url_for('new'))
         return generate_profile_page(user_id, user_profile, is_user=True)
     elif 'token' in session:
+        print(session['token'])
         try:
             sp = spotipy.Spotify(auth=session['token'])
             df_user = get_user_df(sp)

@@ -1,0 +1,16 @@
+<ul class="genre-cloud" aria-label="Webdev tag cloud">
+    {% for genre in genres %}
+    <li data-weight="{{ genre['weight'] }}" font-col="{{ genre['colour'] }}">
+        {{ genre['genre'] }}
+        <span class="tooltiptext">
+            <h4>Rank: <em>{{ 11 - genre['weight'] }}</em></h4>
+            {% for artist in genre['artists'] %}
+            <div class="genre-info">
+                <a href="{{ artist['artist_url'] }}"><img src="{{ artist['artist_image'] }}"></a>
+                <a href="{{ artist['artist_url'] }}"> {{ artist['artist'] }} </a>
+            </div>
+            {% endfor %}
+        </span>
+    </li>
+    {% endfor %}
+</ul>
