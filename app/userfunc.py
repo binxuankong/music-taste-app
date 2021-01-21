@@ -22,28 +22,28 @@ def get_user_profile(user_id):
     except:
         return None
 
-def get_top_artists(user_id):
+def get_user_top(user_id):
     engine = create_engine(DATABASE_URL)
+    df_a = get_top_artists(user_id, engine)
+    df_t = get_top_tracks(user_id, engine)
+    df_g = get_top_genres(user_id, engine)
+    df_m = get_music_features(user_id, engine)
+    return df_a, df_t, df_g, df_m
+
+def get_top_artists(user_id, engine):
     df = pd.read_sql_query(top_artists_query, engine, params={'user_id': user_id})
-    engine.dispose()
     return df
 
-def get_top_tracks(user_id):
-    engine = create_engine(DATABASE_URL)
+def get_top_tracks(user_id, engine):
     df = pd.read_sql_query(top_tracks_query, engine, params={'user_id': user_id})
-    engine.dispose()
     return df
 
-def get_top_genres(user_id):
-    engine = create_engine(DATABASE_URL)
+def get_top_genres(user_id, engine):
     df = pd.read_sql_query(top_genres_query, engine, params={'user_id': user_id})
-    engine.dispose()
     return df
 
-def get_music_features(user_id):
-    engine = create_engine(DATABASE_URL)
+def get_music_features(user_id, engine):
     df = pd.read_sql_query(music_features_query, engine, params={'user_id': user_id})
-    engine.dispose()
     return df
 
 def create_new_user(sp):
@@ -63,8 +63,7 @@ def create_new_user(sp):
     # Dispose engine
     engine.dispose()
 
-def sync_all_data(sp):
-    engine = create_engine(DATABASE_URL)
+def sync_all_data(sp, engine):
     # Extract from Spotify API
     df_ta = get_top_artists_df(sp)
     df_tt = get_top_tracks_df(sp)
@@ -83,8 +82,6 @@ def sync_all_data(sp):
     sync_data(df_tt[['user_id', 'rank', 'track_id', 'timeframe']], 'TopTracks', engine)
     sync_data(df_tg, 'TopGenres', engine)
     sync_data(df_mf, 'TopFeatures', engine)
-    # Dispose engine
-    engine.dispose()
 
 def update_user_profile(sp):
     engine = create_engine(DATABASE_URL)
@@ -97,7 +94,7 @@ def update_user_profile(sp):
     else:
         engine.execute(user_update_query, user_id=u['user_id'], display_name=u['display_name'], spotify_url=u['spotify_url'], \
             image_url=u['image_url'], followers=u['followers'], last_updated=u['last_updated'])
-    sync_all_data(sp)
+    sync_all_data(sp, engine)
     try:
         get_new_recommendations(u['user_id'])
     except:

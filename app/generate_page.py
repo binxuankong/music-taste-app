@@ -2,8 +2,8 @@ import os
 import datetime as dt
 from flask import render_template
 from app.dbfunc import top_to_dict
-from app.userfunc import get_user_profile, get_top_artists, get_top_tracks, get_top_genres, get_music_features
-from app.vizfunc import calculate_mainstream_score, genre_cloud_data, plot_genre_chart, plot_mood_gauge
+from app.userfunc import get_user_profile, get_user_top
+from app.vizfunc import calculate_mainstream_score, genre_cloud_data, plot_mood_gauge
 from app.comparefunc import compare_users, get_similar_artists, get_similar_tracks
 from app.recofunc import get_of_the_day, get_recommendations, get_top_artists_and_tracks
 
@@ -18,10 +18,7 @@ def generate_page(html_page, **kwargs):
 def generate_profile_page(user_id, user_profile, is_user=False, public=True):
     if not public:
         return generate_page('profile.html', is_user=False, public=False, user=user_profile)
-    top_artists = get_top_artists(user_id)
-    top_tracks = get_top_tracks(user_id)
-    top_genres = get_top_genres(user_id)
-    music_features = get_music_features(user_id)
+    top_artists, top_tracks, top_genres, music_features = get_user_top(user_id)
     # Mainstream meter
     mainstream_score = calculate_mainstream_score(top_artists)
     genre_data = genre_cloud_data(top_artists, top_genres)

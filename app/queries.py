@@ -122,8 +122,8 @@ WHERE tg.user_id in %(user_ids)s
 
 music_features2_query = """
 SELECT *
-FROM "MusicFeatures" mf
-WHERE mf.user_id in %(user_ids)s
+FROM "TopFeatures" tf
+WHERE tf.user_id in %(user_ids)s
 """
 
 similar_artists_query = """
