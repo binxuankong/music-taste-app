@@ -32,7 +32,7 @@ def generate_profile_page(user_id, user_profile, is_user=False, public=True):
                              genres=genre_data, moods=music_features, topmoods=top_features, mainstream=mainstream_score)
     else:
         return generate_page('profile.html', is_user=False, public=True, user=user_profile, artists=top_artists, tracks=top_tracks, \
-                             genres=genre_data, moods=mood_data, mainstream=mainstream_score)
+                             genres=genre_data, moods=music_features, topmoods=top_features, mainstream=mainstream_score)
 
 def generate_match_page(user1, user2):
     s, df_u, df_a, df_t, df_g = compare_users(user1, user2)
