@@ -32,8 +32,8 @@ WHERE tg.user_id = %(user_id)s
 
 music_features_query = """
 SELECT *
-FROM "MusicFeatures" mf
-WHERE mf.user_id = %(user_id)s
+FROM "TopFeatures" tf
+WHERE tf.user_id = %(user_id)s
 """
 
 user_update_query = """
@@ -83,11 +83,13 @@ FROM "TempTracks" tt
 ON CONFLICT (track_id) DO NOTHING
 """
 
-genres_insert_query = """
-INSERT INTO "Genres" (genre)
-SELECT genre
-FROM "TempGenres" tg
-ON CONFLICT (genre) DO NOTHING
+features_insert_query = """
+INSERT INTO "MusicFeatures" (track_id, danceability, energy, loudness, speechiness, acousticness, instrumentalness,
+    liveness, valence, tempo, key, mode, duration_ms, time_signature)
+SELECT tf.track_id, tf.danceability, tf.energy, tf.loudness, tf.speechiness, tf.acousticness, tf.instrumentalness,
+    tf.liveness, tf.valence, tf.tempo, tf.key, tf.mode, tf.duration_ms, tf.time_signature
+FROM "TempFeatures" tf
+ON CONFLICT (track_id) DO NOTHING
 """
 
 users2_query = """

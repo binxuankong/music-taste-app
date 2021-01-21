@@ -95,6 +95,7 @@ def get_top_genres_df(top_artists, shift=4):
 def get_music_features_df(sp, top_tracks):
     audio_features = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', \
                       'liveness', 'valence', 'tempo']
+    df_music = pd.DataFrame()
     df_feature = pd.DataFrame(columns=['user_id'] + audio_features + ['timeframe'])
     user_id = top_tracks[2][0]['user_id']
     for timeframe in RANGES.values():
@@ -104,9 +105,12 @@ def get_music_features_df(sp, top_tracks):
             for f in audio_features:
                 this_feature[f] = sum(a[f] for a in all_features) / len(all_features)
             df_feature = df_feature.append(this_feature, ignore_index=True)
+            df_music = df_music.append(pd.DataFrame.from_dict(all_features))
         except:
             pass
-    return df_feature
+    df_music = df_music[['id'] + audio_features + ['key', 'mode', 'duration_ms', 'time_signature']]
+    df_music = df_music.rename(columns={'id': 'track_id'}).drop_duplicates()
+    return df_feature, df_music
 
 def get_recently_played_df(sp):
     user_id = sp.me()['id']

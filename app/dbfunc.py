@@ -1,16 +1,18 @@
 import random
-from app.queries import artists_update_query, tracks_update_query, artists_insert_query, tracks_insert_query
+from app.queries import artists_update_query, tracks_update_query, artists_insert_query, tracks_insert_query, features_insert_query
 
 def sync_data(df, table, engine):
     if len(df) > 0:
         delete_user_data(df, table, engine)
         insert_new_data(df, table, engine)
 
-def update_artists_and_tracks(engine):
+def update_artists_and_tracks(engine, features=False):
     engine.execute(artists_update_query)
     engine.execute(tracks_update_query)
     engine.execute(artists_insert_query)
     engine.execute(tracks_insert_query)
+    if features:
+        engine.execute(features_insert_query)
 
 def delete_user_data(df, table, engine):
     user_id = df['user_id'].unique()[0]

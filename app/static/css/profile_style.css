@@ -295,7 +295,7 @@ ul.genre-cloud .tooltiptext {
     all: initial;
     visibility: hidden;
     width: 360px;
-    background-color: var(--green);
+    background-color: var(--blue);
     border: 2px solid var(--black);
     border-radius: 32px;
     padding: 16px 32px;
