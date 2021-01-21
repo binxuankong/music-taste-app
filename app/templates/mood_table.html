@@ -1,0 +1,46 @@
+{% set music_features = [
+    ('valence', 'happy', '%'),
+    ('energy', 'energetic', '%'),
+    ('danceability', 'danceable', '%'),
+    ('acousticness', 'acoustic', '%'),
+    ('instrumentalness', 'instrumental', '%'),
+    ('liveness', 'live', '%'),
+    ('loudness', 'loudness', 'dB'),
+    ('tempo', 'tempo', 'BPM')
+] -%}
+{% for feat, title, unit in music_features %}
+<div class="mood">
+    <div class="mood-desc text-center">
+        {% if unit == '%' %}
+        Your music is <span>{{ moods[feat] }}{{ unit|e }}</span> {{ title|e }}
+        {% else %}
+        Your music's average {{ title|e }} is <span>{{ moods[feat] }}{{ unit|e }}</span>
+        {% endif %}
+    </div>
+    <div class="mood-songs">
+        <div class="mood-least">
+            <h4 id="least">Least</h4>
+            <a href="{{ topmoods[feat]['min']['track_url'] }}"><img src="{{ topmoods[feat]['min']['album_image'] }}"></a>
+            <span class="tooltiptext">
+                <div class="mood-info">
+                    <a href="{{ topmoods[feat]['min']['track_url'] }}">{{ topmoods[feat]['min']['track'] }}</a><br>
+                    <span>{{ topmoods[feat]['min']['artists'] }}</span><br>
+                    {{ topmoods[feat]['min']['album'] }}
+                </div>
+            </span>
+        </div>
+        <div class="mood-most">
+            <h4 id="most">Most</h4>
+            <a href="{{ topmoods[feat]['max']['track_url'] }}"><img src="{{ topmoods[feat]['max']['album_image'] }}"></a>
+            <span class="tooltiptext">
+                <div class="mood-info">
+                    <a href="{{ topmoods[feat]['max']['track_url'] }}">{{ topmoods[feat]['max']['track'] }}</a><br>
+                    <span>{{ topmoods[feat]['max']['artists'] }}</span><br>
+                    {{ topmoods[feat]['max']['album'] }}
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+<hr>
+{% endfor %}

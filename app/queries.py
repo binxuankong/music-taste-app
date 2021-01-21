@@ -16,10 +16,13 @@ ORDER BY ta.timeframe, ta.rank
 """
 
 top_tracks_query = """
-SELECT tt.rank, tt.track_id, tt.timeframe, t.track, t.artists, t.album, t.album_image, t.release_date, t.track_url
+SELECT tt.rank, tt.track_id, tt.timeframe, t.track, t.artists, t.album, t.album_image, t.release_date, t.track_url,
+       mf.danceability, mf.energy, mf.loudness, mf.acousticness, mf.instrumentalness, mf.liveness, mf.valence, mf.tempo
 FROM "TopTracks" tt
 JOIN "Tracks" t
 ON tt.track_id = t.track_id
+JOIN "MusicFeatures" mf
+ON tt.track_id = mf.track_id
 WHERE tt.user_id = %(user_id)s
 ORDER BY tt.timeframe, tt.rank
 """

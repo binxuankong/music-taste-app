@@ -3,7 +3,7 @@ import datetime as dt
 from flask import render_template
 from app.dbfunc import top_to_dict
 from app.userfunc import get_user_profile, get_user_top
-from app.vizfunc import calculate_mainstream_score, genre_cloud_data, plot_mood_gauge
+from app.vizfunc import calculate_mainstream_score, genre_cloud_data, clean_music_features, get_most_features
 from app.comparefunc import compare_users, get_similar_artists, get_similar_tracks
 from app.recofunc import get_of_the_day, get_recommendations, get_top_artists_and_tracks
 
@@ -22,15 +22,14 @@ def generate_profile_page(user_id, user_profile, is_user=False, public=True):
     # Mainstream meter
     mainstream_score = calculate_mainstream_score(top_artists)
     genre_data = genre_cloud_data(top_artists, top_genres)
+    top_features = get_most_features(top_tracks)
     # To dict format
     top_artists = top_to_dict(top_artists)
     top_tracks = top_to_dict(top_tracks)
-    music_features = top_to_dict(music_features)
-    # Plot charts
-    mood_data = plot_mood_gauge(music_features)
+    music_features = clean_music_features(music_features)
     if is_user:
         return generate_page('profile.html', is_user=True, public=True, user=user_profile, artists=top_artists, tracks=top_tracks, \
-                             genres=genre_data, moods=mood_data, mainstream=mainstream_score)
+                             genres=genre_data, moods=music_features, topmoods=top_features, mainstream=mainstream_score)
     else:
         return generate_page('profile.html', is_user=False, public=True, user=user_profile, artists=top_artists, tracks=top_tracks, \
                              genres=genre_data, moods=mood_data, mainstream=mainstream_score)

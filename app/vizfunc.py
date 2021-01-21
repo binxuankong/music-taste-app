@@ -61,6 +61,31 @@ def genre_cloud_data(df_a, df_g):
         top_dict[tf] = dict_list
     return top_dict
 
+def clean_music_features(df_m):
+    top_dict = {}
+    is_percent = ['danceability', 'energy', 'acousticness', 'instrumentalness', 'liveness', 'valence']
+    for tf in TF_WEIGHTS.keys():
+        temp_dict = df_m.loc[df_m['timeframe'] == tf].to_dict('records')[0]
+        for p in is_percent:
+            temp_dict[p] = round(temp_dict[p] *100)
+        temp_dict['loudness'] = round(temp_dict['loudness'], 2)
+        temp_dict['tempo'] = round(temp_dict['tempo'])
+        top_dict[tf] = temp_dict
+    return top_dict
+
+def get_most_features(df_t):
+    to_keep = ['track_id', 'track', 'artists', 'album', 'album_image', 'track_url']
+    overall_dict = {}
+    for tf in TF_WEIGHTS.keys():
+        this_dict = {'danceability': {}, 'energy': {}, 'loudness': {}, 'acousticness': {}, 'instrumentalness': {}, \
+                     'liveness': {}, 'valence': {}, 'tempo': {}}
+        df = df_t.loc[df_t['timeframe'] == tf]
+        for feat in this_dict.keys():
+            this_dict[feat]['min'] = df.loc[df[feat].idxmin()][to_keep].to_dict()
+            this_dict[feat]['max'] = df.loc[df[feat].idxmax()][to_keep].to_dict()
+        overall_dict[tf] = this_dict
+    return overall_dict
+
 def plot_genre_chart(top_genres):
     try:
         chart_dict = {}

@@ -240,16 +240,10 @@ ul.cloud li[data-weight="3"] { --size: 4; --color: var(--red);}
     bottom: 0;
 }
 
-.chart embed {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 ul.genre-cloud {
     list-style: none;
-    padding-top: 36px;
-    padding-bottom: 24px;
+    padding-top: 24px;
+    padding-bottom: 8px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -295,8 +289,8 @@ ul.genre-cloud .tooltiptext {
     all: initial;
     visibility: hidden;
     width: 360px;
-    background-color: var(--blue);
-    border: 2px solid var(--black);
+    background-color: var(--grey);
+    border: 2px solid var(--red);
     border-radius: 32px;
     padding: 16px 32px;
     position: absolute;
@@ -317,7 +311,7 @@ ul.genre-cloud li:hover .tooltiptext {
 }
 
 ul.genre-cloud .tooltiptext h4 {
-    color: var(--black);
+    color: var(--white);
     font-size: 24px;
     margin-bottom: 6px;
 }
@@ -342,7 +336,7 @@ ul.genre-cloud .tooltiptext em {
 
 .tooltiptext .genre-info a {
     text-decoration: none;
-    color: var(--white);
+    color: var(--green);
     vertical-align: middle;
 }
 
@@ -360,4 +354,133 @@ ul.genre-cloud .tooltiptext em {
         width: 300px;
         margin-left: -150px;
     }
+}
+
+.mood {
+    width: 90%;
+    margin: 32px 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.mood .mood-desc {
+    color: var(--white);
+    font-size: 3rem;
+    line-height: 3rem;
+    margin-bottom: 16px;
+}
+
+.mood .mood-desc span {
+    color: var(--red);
+    font-size: 4rem;
+    text-align: center;
+}
+
+.mood .mood-songs {
+    width: 100%;
+    text-align: center;
+}
+
+.mood .mood-songs h4 {
+    font-size: 2rem;
+}
+
+.mood .mood-songs #least {
+    color: #7b2d26;
+}
+
+.mood .mood-songs #most {
+    color: #0b7a75;
+}
+
+.mood .mood-songs img {
+    object-fit: cover;
+    height: 128px;
+    width: 128x;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mood .mood-songs .mood-least {
+    float: left;
+    width: 50%;
+    top: 0;
+    left: 0;
+}
+
+.mood .mood-songs .mood-most {
+    float: right;
+    width: 50%;
+    top: 0;
+    right: 0;
+}
+
+.mood-least .tooltiptext {
+    all: initial;
+    visibility: hidden;
+    width: 360px;
+    background-color: var(--grey);
+    border: 2px solid var(--red);
+    border-radius: 32px;
+    padding: 16px 32px;
+    position: absolute;
+    z-index: 1;
+    left: 0%;
+    margin-top: -64px;
+    font-size: 20px;
+    color: var(--black);
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.mood-least:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mood-most .tooltiptext {
+    all: initial;
+    visibility: hidden;
+    width: 360px;
+    background-color: var(--grey);
+    border: 2px solid var(--red);
+    border-radius: 32px;
+    padding: 16px 32px;
+    position: absolute;
+    z-index: 1;
+    right: 0%;
+    margin-top: -64px;
+    font-size: 20px;
+    color: var(--black);
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.mood-most:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mood .mood-info {
+    font-size: 18px;
+    color:var(--white);
+    font-weight: 400;
+}
+
+.mood .mood-info a {
+    text-decoration: none;
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.mood .mood-info span {
+    color: var(--red);
+    font-weight: 600;
 }
