@@ -6,7 +6,7 @@
     --blue: #05a8aa;
 }
 
-h1 a, a:hover{
+h1 a, a:hover {
     text-decoration: none;
     color: var(--blue);
 }
@@ -51,7 +51,7 @@ ul.cloud {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-  }
+}
   
 ul.cloud li {
     --size: 4;
@@ -290,7 +290,7 @@ ul.genre-cloud .tooltiptext {
     visibility: hidden;
     width: 360px;
     background-color: var(--grey);
-    border: 2px solid var(--red);
+    border: 2px solid var(--blue);
     border-radius: 32px;
     padding: 16px 32px;
     position: absolute;
@@ -317,7 +317,7 @@ ul.genre-cloud .tooltiptext h4 {
 }
 
 ul.genre-cloud .tooltiptext em {
-    color: var(--red);
+    color: var(--blue);
 }
 
 .tooltiptext .genre-info {
@@ -326,17 +326,17 @@ ul.genre-cloud .tooltiptext em {
     margin-bottom: 2px;
 }
 
-.tooltiptext .genre-info img{
+.tooltiptext .genre-info img {
     object-fit: cover;
     height: 50px;
     width: 50px;
-    border: 1px var(--red) solid;
+    border: 1px var(--blue) solid;
     margin-right: 16px;
 }
 
 .tooltiptext .genre-info a {
     text-decoration: none;
-    color: var(--green);
+    color: var(--red);
     vertical-align: middle;
 }
 

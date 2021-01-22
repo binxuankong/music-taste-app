@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_style.css') }}?u={{ last_updated }}">
+{% endblock %}
+
+{% block content %}
+
+<h1>Search: <em>{% block title %}{{ query }}{% endblock %}</em></h1>
+
+<section id="users">
+    <div class="container">
+        <h2>Users</h2>
+        {% if users is none %}
+        <h3>No user found</em></h3>>
+        {% else %}
+        <table class="table table-striped">
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td width="20%">
+                        <a href="user/{{ user['user_id'] }}">
+                        {% if user['image_url'] is none %}
+                        <img class="profile-pic" src="{{ url_for('static', filename='/img/no-picture.png') }}" alt=""/>
+                        {% else %}
+                        <img class="profile-pic" src="{{ user['image_url'] }}" alt=""/>
+                        {% endif %}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="user/{{ user['user_id'] }}">{{ user['display_name'] }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>                    
+        </table>
+        {% endif %}
+    </div>
+</section>
+<section id="artists">
+    <div class="container">
+        <h2>Artists</h2>
+        {% if artists is none %}
+        <h3>No artist found</h3>>
+        {% else %}
+        <table class="table table-striped">
+            <tbody>
+                {% for artist in artists %}
+                <tr>
+                    <td width="20%">
+                        <a href="{{ artist['artist_url'] }}"><img src="{{ artist['artist_image'] }}"/></a>
+                    </td>
+                    <td>
+                        <a href="{{ artist['artist_url'] }}">{{ artist['artist'] }}</a><br>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>                    
+        </table>
+        {% endif %}
+    </div>
+</section>
+<section id="tracks">
+    <div class="container">
+        <h2>Tracks</h2>
+        {% if tracks is none %}
+        <h3>No track found</h3>>
+        {% else %}
+        <table class="table table-striped">
+            <tbody>
+                {% for track in tracks %}
+                <tr>
+                    <td width="20%">
+                        <a href="{{ track['track_url'] }}"><img src="{{ track['album_image'] }}"/></a>
+                    </td>
+                    <td>
+                        <a href="{{ track['track_url'] }}">{{ track['track'] }}</a><br>
+                        <span>{{ track['artists'] }}</span><br>
+                        {{ track['album'] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>                    
+        </table>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

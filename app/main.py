@@ -11,6 +11,7 @@ from app.generate_page import generate_page, generate_profile_page, generate_mat
 from app.spotifunc import get_user_df
 from app.userfunc import get_user_profile, create_new_user, update_user_profile, update_user_privacy, update_user_code
 from app.comparefunc import get_user_from_code
+from app.searchfunc import search_database
 from secrets import secrets
 
 app = Flask(__name__)
@@ -218,4 +219,5 @@ def explore_page(field):
 @app.route('/search')
 def search():
     query = request.args['search']
-    print(query)
+    users, artists, tracks = search_database(query)
+    return generate_page('search.html', query=query, users=users, artists=artists, tracks=tracks)

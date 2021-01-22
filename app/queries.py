@@ -229,3 +229,31 @@ GROUP BY ta2.user_id, u.display_name, u.image_url
 ORDER BY point desc
 LIMIT 10
 """
+
+search_user_query = """
+SELECT *
+FROM "Users"
+WHERE display_name ILIKE %(search)s
+LIMIT 10
+"""
+
+search_artist_query = """
+SELECT artist_id, artist, artist_url, artist_image
+FROM "Artists"
+WHERE artist ILIKE %(search)s
+LIMIT 10
+"""
+
+search_track_query1 = """
+SELECT track_id, track, artists, album, track_url, album_image
+FROM "Tracks"
+WHERE track ILIKE %(search)s
+LIMIT 10
+"""
+
+search_track_query2 = """
+SELECT track_id, track, artists, album, track_url, album_image
+FROM "Tracks"
+WHERE artists ILIKE %(search)s
+LIMIT 10
+"""
