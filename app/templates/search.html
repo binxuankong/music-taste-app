@@ -28,7 +28,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="user/{{ user['user_id'] }}">{{ user['display_name'] }}</a>
+                        <br><a href="user/{{ user['user_id'] }}">{{ user['display_name'] }}</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -51,7 +51,7 @@
                         <a href="{{ artist['artist_url'] }}"><img src="{{ artist['artist_image'] }}"/></a>
                     </td>
                     <td>
-                        <a href="{{ artist['artist_url'] }}">{{ artist['artist'] }}</a><br>
+                        <br><a href="{{ artist['artist_url'] }}">{{ artist['artist'] }}</a><br>
                     </td>
                 </tr>
                 {% endfor %}
