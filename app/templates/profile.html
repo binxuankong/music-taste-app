@@ -42,7 +42,7 @@
 
 {% if public %}
 
-<ul class="cloud" style="padding-bottom: 48px">
+<ul class="cloud">
     <li data-weight="1">Your</li>
     <li data-weight="2">music</li>
     <li data-weight="2">taste</li>
@@ -61,7 +61,7 @@
     {% with title='Top Genres' %}
         {% include 'genre_template.html' %}
     {% endwith %}
-    {% with title='Music Moods' %}
+    {% with title='Music Moods', profile=True %}
         {% include 'mood_template.html' %}
     {% endwith %}
 </section>

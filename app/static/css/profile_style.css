@@ -20,10 +20,6 @@ h1 a, a:hover {
     font-weight: 500;
 }
 
-.container {
-    padding-bottom: 48px;
-}
-
 .profile-pic {
     border: 2px var(--blue) solid;
     border-radius: 50%;
@@ -51,6 +47,7 @@ ul.cloud {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 32px;
 }
   
 ul.cloud li {
@@ -74,7 +71,7 @@ ul.cloud li[data-weight="3"] { --size: 4; --color: var(--red);}
 
 #tabs {
     padding: 5%;
-    margin-top: -3%;
+    margin-top: -5%;
 }
 
 .top-tab h3 {
@@ -83,13 +80,7 @@ ul.cloud li[data-weight="3"] { --size: 4; --color: var(--red);}
     color: var(--white);
     text-align: center;
     padding: 12px;
-}
-
-@media (max-width: 768px) {
-    .top-tab h3 {
-      font-size: 20px;
-      padding: 8px;
-    }
+    margin-top: 64px;
 }
 
 .top-tab #tabs{
@@ -190,15 +181,6 @@ ul.cloud li[data-weight="3"] { --size: 4; --color: var(--red);}
     margin-bottom: 0;
 }
 
-@media (max-width: 768px) {
-    .card-info a {
-      font-size: 10px;
-    }
-    .card-info p {
-        font-size: 8px;
-    }
-}
-
 .card-main {
     display: flex;              /* Children use Flexbox */
     flex-direction: column;     /* Rotate Axis to Vertical */
@@ -242,8 +224,7 @@ ul.cloud li[data-weight="3"] { --size: 4; --color: var(--red);}
 
 ul.genre-cloud {
     list-style: none;
-    padding-top: 24px;
-    padding-bottom: 8px;
+    padding: 8px 0px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -340,25 +321,9 @@ ul.genre-cloud .tooltiptext em {
     vertical-align: middle;
 }
 
-@media (max-width: 768px) {
-    ul.genre-cloud {
-        line-height: 3rem;
-    }
-
-    ul.genre-cloud li {
-        font-size: calc(var(--size) * 0.125rem + 0.5rem);
-        padding: 0.2rem 0.4rem;
-    }
-
-    ul.genre-cloud .tooltiptext {
-        width: 300px;
-        margin-left: -150px;
-    }
-}
-
 .mood {
     width: 90%;
-    margin: 32px 0px;
+    margin: 24px 0px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -432,6 +397,7 @@ ul.genre-cloud .tooltiptext em {
     z-index: 1;
     left: 0%;
     margin-top: -64px;
+    margin-left: 64px;
     font-size: 20px;
     color: var(--black);
     /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
@@ -456,6 +422,7 @@ ul.genre-cloud .tooltiptext em {
     z-index: 1;
     right: 0%;
     margin-top: -64px;
+    margin-right: 64px;
     font-size: 20px;
     color: var(--black);
     /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
@@ -483,4 +450,53 @@ ul.genre-cloud .tooltiptext em {
 .mood .mood-info span {
     color: var(--red);
     font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .top-tab h3 {
+      padding: 8px;
+      margin-top: 32px;
+    }
+
+    .card-info a {
+      font-size: 10px;
+    }
+    
+    .card-info p {
+        font-size: 8px;
+    }
+    
+    ul.genre-cloud {
+        line-height: 3rem;
+    }
+
+    ul.genre-cloud li {
+        font-size: calc(var(--size) * 0.125rem + 0.5rem);
+        padding: 0.2rem 0.4rem;
+    }
+
+    ul.genre-cloud .tooltiptext {
+        width: 300px;
+        margin-left: -150px;
+    }
+    .mood .mood-desc {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+    
+    .mood .mood-desc span {
+        font-size: 2rem;
+    }
+    
+    .mood .mood-songs h4 {
+        font-size: 1rem;
+    }
+
+    .mood-least .tooltiptext {
+        margin-left: 0px;
+    }
+
+    .mood-most .tooltiptext {
+        margin-right: 0px;
+    }
 }

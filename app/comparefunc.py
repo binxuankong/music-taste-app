@@ -1,8 +1,8 @@
 import pandas as pd
 from sqlalchemy import create_engine
 from app.codes import ADJECTIVES, NOUNS
-from app.queries import users2_query, top_artists2_query, top_tracks2_query, top_genres2_query, music_features2_query, \
-    similar_artists_query, similar_tracks_query, similar_users_query
+from app.queries import users2_query, top_artists2_query, top_tracks2_query, top_genres2_query, similar_artists_query, \
+    similar_tracks_query, similar_users_query
 from secrets import secrets
 
 DATABASE_URL = secrets['DATABASE_URL']
@@ -29,7 +29,7 @@ def compare_users(u1, u2):
     df_a = pd.read_sql(top_artists2_query, engine, params={'user_ids': (u1, u2)})
     df_t = pd.read_sql(top_tracks2_query, engine, params={'user_ids': (u1, u2)})
     df_g = pd.read_sql(top_genres2_query, engine, params={'user_ids': (u1, u2)})
-    df_m = pd.read_sql(music_features2_query, engine, params={'user_ids': (u1, u2)})
+    df_m = df_t.groupby(['user_id', 'timeframe']).mean().reset_index()
     # User 1
     u1_a = df_a.loc[df_a['user_id'] == u1]
     u1_t = df_t.loc[df_t['user_id'] == u1]

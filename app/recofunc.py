@@ -8,7 +8,7 @@ import lyricsgenius
 from sqlalchemy import create_engine
 from spotipy.oauth2 import SpotifyClientCredentials
 from app.queries import recommend_artists_query, recommend_tracks_query, top_artists3_query, top_tracks3_query, popular_artists_query, \
-    popular_tracks_query, new_of_day_query
+    popular_tracks_query, popular_genres_query, new_of_day_query
 from app.dbfunc import sync_data, update_artists_and_tracks
 from secrets import secrets
 
@@ -42,15 +42,16 @@ def get_recommendations(user_id):
         df_ra = pd.read_sql_query(recommend_artists_query, engine, params={'user_id': user_id})
         df_rt = pd.read_sql_query(recommend_tracks_query, engine, params={'user_id': user_id})
     engine.dispose()
-    return df_ra, df_rt
+    return df_ra.to_dict('records'), df_rt.to_dict('records')
 
-def get_top_artists_and_tracks(timeframe):
+def get_top_all_users(timeframe):
     engine = create_engine(DATABASE_URL)
     df_a = pd.read_sql_query(popular_artists_query, engine, params={'timeframe': timeframe})
     df_t = pd.read_sql_query(popular_tracks_query, engine, params={'timeframe': timeframe})
+    df_g = pd.read_sql_query(popular_genres_query, engine, params={'timeframe': timeframe})
     df_a['rank'] = df_a.index + 1
     engine.dispose()
-    return df_a, df_t
+    return df_a, df_t, df_g
 
 def get_new_of_day():
     engine = create_engine(DATABASE_URL)

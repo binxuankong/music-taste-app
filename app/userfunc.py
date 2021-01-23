@@ -2,8 +2,8 @@ import random
 import pandas as pd
 from sqlalchemy import create_engine
 from app.codes import ADJECTIVES, NOUNS
-from app.queries import user_query, top_artists_query, top_tracks_query, top_genres_query, music_features_query, user_update_query, \
-    user_privacy_query, user_code_query
+from app.queries import user_query, top_artists_query, top_tracks_query, top_genres_query, user_update_query, user_privacy_query, \
+    user_code_query
 from app.dbfunc import sync_data, update_artists_and_tracks, top_to_dict
 from app.spotifunc import get_user_df, get_top_artists_df, get_top_tracks_df, get_top_genres_df, get_music_features_df
 from app.recofunc import get_new_recommendations
@@ -27,8 +27,7 @@ def get_user_top(user_id):
     df_a = get_top_artists(user_id, engine)
     df_t = get_top_tracks(user_id, engine)
     df_g = get_top_genres(user_id, engine)
-    df_m = get_music_features(user_id, engine)
-    return df_a, df_t, df_g, df_m
+    return df_a, df_t, df_g
 
 def get_top_artists(user_id, engine):
     df = pd.read_sql_query(top_artists_query, engine, params={'user_id': user_id})
@@ -40,10 +39,6 @@ def get_top_tracks(user_id, engine):
 
 def get_top_genres(user_id, engine):
     df = pd.read_sql_query(top_genres_query, engine, params={'user_id': user_id})
-    return df
-
-def get_music_features(user_id, engine):
-    df = pd.read_sql_query(music_features_query, engine, params={'user_id': user_id})
     return df
 
 def create_new_user(sp):
@@ -68,20 +63,19 @@ def sync_all_data(sp, engine):
     df_ta = get_top_artists_df(sp)
     df_tt = get_top_tracks_df(sp)
     df_tg = get_top_genres_df(top_to_dict(df_ta))
-    df_mf, df_tf = get_music_features_df(sp, top_to_dict(df_tt))
+    df_mf = get_music_features_df(sp, df_tt)
     # Artists and tracks
     df_a = df_ta.drop(columns=['user_id', 'rank', 'timeframe']).drop_duplicates()
     df_t = df_tt.drop(columns=['user_id', 'rank', 'timeframe']).drop_duplicates()
     # Sync artists and tracks
     df_a.to_sql('TempArtists', engine, index=False, if_exists='replace')
     df_t.to_sql('TempTracks', engine, index=False, if_exists='replace')
-    df_tf.to_sql('TempFeatures', engine, index=False, if_exists='replace')
+    df_mf.to_sql('TempFeatures', engine, index=False, if_exists='replace')
     update_artists_and_tracks(engine, features=True)
     # Sync user data
     sync_data(df_ta[['user_id', 'rank', 'artist_id', 'timeframe']], 'TopArtists', engine)
     sync_data(df_tt[['user_id', 'rank', 'track_id', 'timeframe']], 'TopTracks', engine)
     sync_data(df_tg, 'TopGenres', engine)
-    sync_data(df_mf, 'TopFeatures', engine)
 
 def update_user_profile(sp):
     engine = create_engine(DATABASE_URL)

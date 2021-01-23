@@ -33,12 +33,6 @@ FROM "TopGenres" tg
 WHERE tg.user_id = %(user_id)s
 """
 
-music_features_query = """
-SELECT *
-FROM "TopFeatures" tf
-WHERE tf.user_id = %(user_id)s
-"""
-
 user_update_query = """
 UPDATE "Users"
 SET display_name = %(display_name)s, spotify_url = %(spotify_url)s, image_url = %(image_url)s,
@@ -111,8 +105,13 @@ ORDER BY ta.timeframe, ta.rank
 """
 
 top_tracks2_query = """
-SELECT *
+SELECT tt.user_id, tt.rank, tt.track_id, tt.timeframe, t.track, t.artists, t.album, t.album_image, t.release_date, t.track_url,
+       mf.danceability, mf.energy, mf.loudness, mf.acousticness, mf.instrumentalness, mf.liveness, mf.valence, mf.tempo
 FROM "TopTracks" tt
+JOIN "Tracks" t
+ON tt.track_id = t.track_id
+JOIN "MusicFeatures" mf
+ON tt.track_id = mf.track_id
 WHERE tt.user_id in %(user_ids)s
 ORDER BY tt.timeframe, tt.rank
 """
@@ -121,12 +120,6 @@ top_genres2_query = """
 SELECT *
 FROM "TopGenres" tg
 WHERE tg.user_id in %(user_ids)s
-"""
-
-music_features2_query = """
-SELECT *
-FROM "TopFeatures" tf
-WHERE tf.user_id in %(user_ids)s
 """
 
 similar_artists_query = """
@@ -182,33 +175,45 @@ ORDER BY t_outer.timeframe, t_top.rank;
 """
 
 popular_artists_query = """
-SELECT ta.artist_id, a.artist, a.artist_image, a.artist_url
+SELECT ta.artist_id, a.artist, a.genres, a.artist_image, a.artist_url
 FROM (
 	SELECT artist_id, SUM(60 - "rank") point
 	FROM "TopArtists"
 	WHERE timeframe = %(timeframe)s
 	GROUP BY artist_id
-	ORDER BY point desc
-	limit 20
+	ORDER BY point DESC
+	LIMIT 50
 ) ta
 JOIN "Artists" a
 ON a.artist_id = ta.artist_id
-ORDER BY ta.point desc
+ORDER BY ta.point DESC
 """
 
 popular_tracks_query = """
-SELECT tt.track_id, t.track, t.artists, t.album, t.album_image, t.track_url 
+SELECT tt.track_id, t.track, t.artists, t.album, t.album_image, t.track_url,
+       mf.danceability, mf.energy, mf.loudness, mf.acousticness, mf.instrumentalness, mf.liveness, mf.valence, mf.tempo
 FROM (
 	SELECT track_id, SUM(60 - "rank") point
 	FROM "TopTracks"
 	WHERE timeframe = %(timeframe)s
 	GROUP BY track_id
-	ORDER BY point desc
-	limit 20
+	ORDER BY point DESC
+	LIMIT 100
 ) tt
 JOIN "Tracks" t
 ON t.track_id = tt.track_id
-ORDER BY tt.point desc
+JOIN "MusicFeatures" mf
+ON tt.track_id = mf.track_id
+ORDER BY tt.point DESC
+"""
+
+popular_genres_query = """
+SELECT genre, SUM(points) points
+FROM "TopGenres"
+WHERE timeframe = %(timeframe)s
+GROUP BY genre 
+ORDER BY points DESC
+LIMIT 10
 """
 
 new_of_day_query = """
@@ -233,27 +238,27 @@ LIMIT 10
 search_user_query = """
 SELECT *
 FROM "Users"
-WHERE display_name ILIKE %(search)s
+WHERE display_name ILIKE %(search1)s OR display_name ILIKE %(search2)s
 LIMIT 10
 """
 
 search_artist_query = """
 SELECT artist_id, artist, artist_url, artist_image
 FROM "Artists"
-WHERE artist ILIKE %(search)s
+WHERE artist ILIKE %(search1)s OR artist ILIKE %(search2)s
 LIMIT 10
 """
 
 search_track_query1 = """
 SELECT track_id, track, artists, album, track_url, album_image
 FROM "Tracks"
-WHERE track ILIKE %(search)s
+WHERE track ILIKE %(search1)s OR track ILIKE %(search2)s
 LIMIT 10
 """
 
 search_track_query2 = """
 SELECT track_id, track, artists, album, track_url, album_image
 FROM "Tracks"
-WHERE artists ILIKE %(search)s
+WHERE artists ILIKE %(search1)s OR artists ILIKE %(search2)s
 LIMIT 10
 """

@@ -11,10 +11,18 @@
 {% for feat, title, unit in music_features %}
 <div class="mood">
     <div class="mood-desc text-center">
-        {% if unit == '%' %}
-        Your music is <span>{{ moods[feat] }}{{ unit|e }}</span> {{ title|e }}
+        {% if profile %}
+            {% if unit == '%' %}
+            Your music is <span>{{ moods[feat] }}{{ unit|e }}</span> {{ title|e }}
+            {% else %}
+            Your music's average {{ title|e }} is <span>{{ moods[feat] }}{{ unit|e }}</span>
+            {% endif %}
         {% else %}
-        Your music's average {{ title|e }} is <span>{{ moods[feat] }}{{ unit|e }}</span>
+            {% if unit == '%' %}
+            {{ active_page.title() }} music is <span>{{ moods[feat] }}{{ unit|e }}</span> {{ title|e }}
+            {% else %}
+            {{ active_page.title() }} music's average {{ title|e }} is <span>{{ moods[feat] }}{{ unit|e }}</span>
+            {% endif %}
         {% endif %}
     </div>
     <div class="mood-songs">

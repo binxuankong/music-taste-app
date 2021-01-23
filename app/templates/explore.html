@@ -12,7 +12,7 @@
     <h1>{% block title %} Explore {% endblock %}</h1>
 </div>
 
-<section id="page-tabs" class="top-tab" style="width:100%; padding: 16px 0px;">
+<section id="page-tabs" class="top-tab" style="width:100%; margin-top: 16px;">
     {% set navigation_bar = [
         ('/recommendation', 'recommendation', 'Recommendation', 'disabled'),
         ('/trending', 'trending', 'Trending', ''),
@@ -34,7 +34,7 @@
 
 <section id="tabs" class="top-tab" style="width:100%;">
     <h3>Artist of the Day</h3>
-    <div class="container" style="padding-bottom:24px;">
+    <div class="container">
         <div class="daily-container">
             <div class='artist-name' data-aos="fade-right" data-aos-delay="400">
                 <div><a href="{{ artist['artist_url'] }}">{{ artist['artist'] }}</a></div>
@@ -46,7 +46,7 @@
         </div>
     </div>
     <h3>Song of the Day</h3>
-    <div class="container" style="padding-bottom:24px;">
+    <div class="container">
         <div class="daily-container">
             <div class='track-image' data-aos="fade-right" data-aos-delay="800">
                 <a href="{{ track['track_url'] }}"><img src="{{ track['album_image'] }}"  onerror="this.onerror=null; this.src=url(static/img/no-profile.png)" alt=""/></a>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <h3>Lyrics of the Day</h3>
-    <div class="container" style="padding-bottom:24px;">
+    <div class="container">
         <div class="daily-container">
             <div class="lyric-background">
                 <img src="{{ lyrics['album_image'] }}"/>
@@ -96,6 +96,16 @@
         <h3>{{ active_page.title() }} Tracks</h3>
         {% include 'track_table.html' %}
     </div>
+    {% if active_page != 'recommended' %}
+    <div class="container">
+        <h3>{{ active_page.title() }} Genres</h3>
+        {% include 'genre_wordcloud.html' %}
+    </div>
+    <div class="container">
+        <h3>{{ active_page.title() }} Music Moods</h3>
+        {% include 'mood_table.html' %}
+    </div>
+    {% endif %}
 </section>
 
 {% endif %}

@@ -95,22 +95,18 @@ def get_top_genres_df(top_artists, shift=4):
 def get_music_features_df(sp, top_tracks):
     audio_features = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', \
                       'liveness', 'valence', 'tempo']
-    df_music = pd.DataFrame()
-    df_feature = pd.DataFrame(columns=['user_id'] + audio_features + ['timeframe'])
-    user_id = top_tracks[2][0]['user_id']
-    for timeframe in RANGES.values():
-        this_feature = {'user_id': user_id, 'timeframe': timeframe}
-        all_features = sp.audio_features([t['track_id'] for t in top_tracks[timeframe]])
-        try:
-            for f in audio_features:
-                this_feature[f] = sum(a[f] for a in all_features) / len(all_features)
-            df_feature = df_feature.append(this_feature, ignore_index=True)
-            df_music = df_music.append(pd.DataFrame.from_dict(all_features))
-        except:
-            pass
-    df_music = df_music[['id'] + audio_features + ['key', 'mode', 'duration_ms', 'time_signature']]
-    df_music = df_music.rename(columns={'id': 'track_id'}).drop_duplicates()
-    return df_feature, df_music
+    dict_list = []
+    track_ids = top_tracks['track_id'].unique().tolist()
+    split = round(len(track_ids) / 3)
+    for i in range(3):
+        if i == 2:
+            subset_ids = track_ids[i*split:]
+        else:
+            subset_ids = track_ids[i*split:i*split+split]
+        this_features = sp.audio_features(subset_ids)
+        dict_list.extend(this_features)
+    df_feat = pd.DataFrame.from_dict(dict_list).rename(columns={'id': 'track_id'}).drop_duplicates()
+    return df_feat
 
 def get_recently_played_df(sp):
     user_id = sp.me()['id']

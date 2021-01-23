@@ -2,8 +2,8 @@
     overflow: hidden;
     position: relative;
     width: 100%;
-    padding-top: 12px;
-    padding-bottom: 24px;
+    padding-top: 32px;
+    padding-bottom: 16px;
 }
 
 .artist-name {
@@ -136,4 +136,22 @@
     color: var(--red);
     font-size: 1.2vw;
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.mood-least .tooltiptext {
+    margin-left: 256px;
+}
+
+.mood-most .tooltiptext {
+    margin-right: 256px;
+}
+
+@media (max-width: 768px) {
+    .mood-least .tooltiptext {
+        margin-left: 0px;
+    }
+
+    .mood-most .tooltiptext {
+        margin-right: 0px;
+    }
 }
