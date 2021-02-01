@@ -49,6 +49,23 @@
     {% with title='Similar Genres' %}
         {% include 'genre_template.html' %}
     {% endwith %}
+
+    <h3>Similar Playlist</h3>
+    <div class="container" style="padding-bottom: 32px;">
+        <ul class="cloud">
+            <li data-weight="1">Create</li>
+            <li data-weight="1">a</li>
+            <li data-weight="2">playlist</li>
+            <li data-weight="1">that</li><br>
+            <li data-weight="1">suits</li><br>
+            <li data-weight="1">you</li><br>
+            <li data-weight="1">both</li><br>
+        </ul>
+        <div class="playlist">
+            <a type="button" class="btn btn-primary" id="generate-playlist" href="{{ url_for('playlist', target_id=target) }}">
+                Generate Playlist</a>
+        </div>
+    </div>
 </section>
 
 {% endblock %}

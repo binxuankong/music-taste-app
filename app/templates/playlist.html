@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/playlist_style.css') }}?u={{ last_updated }}">
+{% endblock %}
+
+{% block content %}
+
+<section id="user-profile">
+    <h1>{% block title %}Playlist{% endblock %} of 
+        <a href="{{ url_for('_user', ref=users[0]['user_id']) }}">{{ users[0]['display_name'] }}</a> and
+        <a href="{{ url_for('_user', ref=users[1]['user_id']) }}">{{ users[1]['display_name'] }}</a>
+    </h1>
+    <div style="text-align: center; padding-top: 24px; padding-bottom: 48px">
+        <a href="{{ url_for('_user', ref=users[0]['user_id']) }}">
+            {% if users[0]['image_url'] is none %}
+            <img class="pimg" src="{{ url_for('static', filename='/img/no-picture.png') }}" style="margin-right: 64px" alt=""/>
+            {% else %}
+            <img class="pimg" src="{{ users[0]['image_url'] }}" style="margin-right: 64px" alt=""/>
+            {% endif %}
+        </a>
+        <a href="{{ url_for('_user', ref=users[1]['user_id']) }}">
+            {% if users[1]['image_url'] is none %}
+            <img class="pimg" src="{{ url_for('static', filename='/img/no-picture.png') }}" style="margin-left: 64px" alt=""/>
+            {% else %}
+            <img class="pimg" src="{{ users[1]['image_url'] }}" style="margin-left: 64px" alt=""/>
+            {% endif %}
+        </a>
+    </div>
+</section>
+
+<section id="playlist">
+    <div class="spotify-embed">
+        <iframe src="https://open.spotify.com/embed/playlist/{{ playlist }}" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
+</section>
+
+{% endblock %}

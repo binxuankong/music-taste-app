@@ -1,0 +1,46 @@
+:root {
+    --black: #000000;
+    --grey: #1c1c16;
+    --white: #ffffff;
+    --red: #ef4f91;
+    --blue: #05a8aa;
+}
+
+h1 a, a:hover {
+    text-decoration: none;
+    color: var(--blue);
+}
+
+#user-profile a {
+    color: var(--blue);
+}
+
+#user-profile span {
+    color: var(--red);
+    font-weight: 500;
+}
+
+.profile-pic {
+    border: 2px var(--blue) solid;
+    border-radius: 50%;
+    margin: 8px 4px;
+    width: 100%;
+}
+
+.pimg {
+    border: 2px var(--blue) solid;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    height: 200px;
+}
+
+.spotify-embed {
+    margin-bottom: 64px;
+}
+
+.spotify-embed iframe {
+    display: block;
+    margin: auto;
+}

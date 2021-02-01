@@ -12,6 +12,7 @@ from app.spotifunc import get_user_df
 from app.userfunc import get_user_profile, create_new_user, update_user_profile, update_user_privacy, update_user_code
 from app.comparefunc import get_user_from_code
 from app.searchfunc import search_database
+from app.playlistfunc import create_playlist
 from secrets import secrets
 
 app = Flask(__name__)
@@ -42,6 +43,12 @@ def link():
     auth_url = f"{API_BASE}/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}"
     return redirect(auth_url)
 
+@app.route('/playlistlink')
+def playlistlink():
+    this_scope = SCOPE + " playlist-modify-public ugc-image-upload"
+    auth_url = f"{API_BASE}/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={this_scope}"
+    return redirect(auth_url)
+
 @app.route('/callback')
 def callback():
     session.permanent = True
@@ -58,6 +65,11 @@ def callback():
     session['token'] = res_body.get('access_token')
     sp = spotipy.Spotify(auth=session['token'])
     update_user_profile(sp)
+    if 'for_playlist' in session:
+        if session['for_playlist'] and 'target_id' in session:
+            session['playlist_token'] = session['token']
+            session['for_playlist'] = False
+            return redirect(url_for('playlist', target_id=session['target_id']))
     return redirect(url_for('profile'))
 
 @app.route('/profile')
@@ -69,7 +81,6 @@ def profile():
             return redirect(url_for('new'))
         return generate_profile_page(user_id, user_profile, is_user=True)
     elif 'token' in session:
-        print(session['token'])
         try:
             sp = spotipy.Spotify(auth=session['token'])
             df_user = get_user_df(sp)
@@ -221,3 +232,16 @@ def search():
     query = request.args['search']
     users, artists, tracks = search_database(query)
     return generate_page('search.html', query=query, users=users, artists=artists, tracks=tracks)
+
+@app.route('/playlist/<target_id>')
+def playlist(target_id):
+    if 'playlist_token' in session:
+        sp = spotipy.Spotify(auth=session['playlist_token'])
+        user_id = session['user_id']
+        users, playlist_id = create_playlist(sp, user_id, target_id)
+        return generate_page('playlist.html', users=users, playlist=playlist_id)
+    elif 'user_id' in session:
+        session['for_playlist'] = True
+        session['target_id'] = target_id
+        redirect(url_for('playlistlink'))
+    return redirect(url_for('playlistlink'))

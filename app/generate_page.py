@@ -5,7 +5,7 @@ from app.dbfunc import top_to_dict
 from app.userfunc import get_user_profile, get_user_top
 from app.vizfunc import calculate_mainstream_score, genre_cloud_all, get_average_features, get_most_features, genre_cloud_data, \
     get_average_feature, get_most_feature
-from app.comparefunc import compare_users, get_similar_artists, get_similar_tracks
+from app.comparefunc import compare_users
 from app.recofunc import get_of_the_day, get_recommendations, get_top_all_users
 
 def dir_last_updated(folder):
@@ -39,14 +39,13 @@ def generate_match_page(user1, user2):
     score = int(round(s * 100))
     users = df_u.to_dict('records')
     similar_artists = similar_tracks = {0: [], 1: [], 2: []}
-    df_a = get_similar_artists(df_a)
     if len(df_a) > 0:
         similar_artists = top_to_dict(df_a)
     if len(df_t) > 0:
-        similar_tracks = top_to_dict(get_similar_tracks(df_t))
+        similar_tracks = top_to_dict(df_t)
     if len(df_g) > 0:
         similar_genres = genre_cloud_all(df_a, df_g)
-    return generate_page('result.html', users=users, score=score, artists=similar_artists, tracks=similar_tracks, genres=similar_genres)
+    return generate_page('result.html', users=users, target=user2, score=score, artists=similar_artists, tracks=similar_tracks, genres=similar_genres)
 
 def generate_explore_page(user_id, field):
     ranges = {'trending': 0, 'popular': 1, 'top': 2}

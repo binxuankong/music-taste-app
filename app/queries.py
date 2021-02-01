@@ -90,7 +90,7 @@ ON CONFLICT (track_id) DO NOTHING
 """
 
 users2_query = """
-SELECT u.user_id, u.display_name, u.spotify_url, u.image_url
+SELECT u.user_id, u.display_name, u.spotify_url, u.image_url, up.code
 FROM "Users" u
 JOIN "UserProfiles" up
 ON u.user_id = up.user_id
@@ -98,8 +98,10 @@ WHERE u.user_id in %(user_ids)s
 """
 
 top_artists2_query = """
-SELECT *
+SELECT ta.user_id, ta.rank, ta.artist_id, ta.timeframe, a.artist, a.genres, a.artist_url, a.artist_image
 FROM "TopArtists" ta 
+JOIN "Artists" a
+ON ta.artist_id = a.artist_id
 WHERE ta.user_id in %(user_ids)s
 ORDER BY ta.timeframe, ta.rank
 """
@@ -261,4 +263,12 @@ SELECT track_id, track, artists, album, track_url, album_image
 FROM "Tracks"
 WHERE artists ILIKE %(search1)s OR artists ILIKE %(search2)s
 LIMIT 10
+"""
+
+generated_playlist_query = """
+SELECT playlist_id, date_created
+FROM "GeneratedPlaylists"
+WHERE user_id = %(user_id)s AND target_id = %(target_id)s
+ORDER BY date_created DESC
+LIMIT 1
 """

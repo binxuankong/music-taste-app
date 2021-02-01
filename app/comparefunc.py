@@ -129,9 +129,10 @@ def get_similar_tracks(df_t):
     return df.sort_values(['timeframe', 'points'], ascending=False)
 
 def get_artist_similarity(u1, u2, timeframe):
+    merge_on = ['artist_id', 'timeframe', 'artist', 'genres', 'artist_url', 'artist_image']
     df1 = u1.loc[u1['timeframe'] == timeframe]
     df2 = u2.loc[u2['timeframe'] == timeframe]
-    df = df1.merge(df2, on=['artist_id', 'timeframe'], how='outer').fillna(0)
+    df = df1.merge(df2, on=merge_on, how='outer').fillna(0)
     df['base'] = calculate_points(df[df[['rank_x', 'rank_y']] > 0].min(axis=1))
     df.loc[(df['rank_x'] != 0) & (df['rank_y'] != 0), 'points'] = calculate_points(df[['rank_x', 'rank_y']].max(axis=1))
     df['points'] = df['points'].fillna(0)
@@ -139,9 +140,12 @@ def get_artist_similarity(u1, u2, timeframe):
     return df
 
 def get_track_similarity(u1, u2, timeframe):
+    audio_features = ['danceability', 'energy', 'loudness', 'acousticness', 'instrumentalness', 'liveness', \
+                      'valence', 'tempo']
+    merge_on = ['track_id', 'timeframe', 'track', 'artists', 'album', 'track_url', 'album_image'] + audio_features
     df1 = u1.loc[u1['timeframe'] == timeframe]
     df2 = u2.loc[u2['timeframe'] == timeframe]
-    df = df1.merge(df2, on=['track_id', 'timeframe'], how='outer').fillna(0)
+    df = df1.merge(df2, on=merge_on, how='outer').fillna(0)
     df['base'] = calculate_points(df[df[['rank_x', 'rank_y']] > 0].min(axis=1))
     df.loc[(df['rank_x'] != 0) & (df['rank_y'] != 0), 'points'] = calculate_points(df[['rank_x', 'rank_y']].max(axis=1))
     df['points'] = df['points'].fillna(0)

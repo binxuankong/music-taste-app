@@ -452,6 +452,19 @@ ul.genre-cloud .tooltiptext em {
     font-weight: 600;
 }
 
+.playlist {
+    text-align: center;
+}
+
+#generate-playlist {
+    font-size: 32px;
+    padding: 8px 64px;
+    border-radius: 32px;
+    color: var(--white) !important;
+    border: 1px solid var(--white) !important;
+    background-color: var(--red) !important;
+}
+
 @media (max-width: 768px) {
     .top-tab h3 {
       padding: 8px;
