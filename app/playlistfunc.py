@@ -55,7 +55,7 @@ def generate_playlist(u1, u2, users, engine):
     # Playlist name
     code1 = users.loc[users['user_id'] == u1]['code'].item()
     code2 = users.loc[users['user_id'] == u2]['code'].item()
-    p_name = code1.split('-')[0] + ' ' + code2.split('-')[0] + ' ' + code1.split('-')[1]
+    p_name = code1.split('-')[0] + ' ' + code2.split('-')[0] + ' ' + code2.split('-')[1]
     if p_name[0] in ['a', 'e', 'i', 'o' 'u']:
         p_name = 'An ' + p_name
     else:
