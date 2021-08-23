@@ -230,8 +230,10 @@ def explore_page(field):
 @app.route('/search')
 def search():
     query = request.args['search']
-    users, artists, tracks = search_database(query)
-    return generate_page('search.html', query=query, users=users, artists=artists, tracks=tracks)
+    # users, artists, tracks = search_database(query)
+    artists, tracks = search_database(query)
+    # return generate_page('search.html', query=query, users=users, artists=artists, tracks=tracks)
+    return generate_page('search.html', query=query, artists=artists, tracks=tracks)
 
 @app.route('/playlist/<target_id>')
 def playlist(target_id):
